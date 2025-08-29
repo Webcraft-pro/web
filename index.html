@@ -11,7 +11,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-<script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" crossorigin="anonymous"></script>
+<script defer type="text/plain" data-cookiecategory="functional" data-src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" crossorigin="anonymous"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;color:#333;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh}
@@ -86,6 +86,43 @@
   .modal-close{background:#eee;border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
   .modal-body{flex:1}
   .modal-iframe{width:100%;height:100%;border:0}
+  /* Cookie banner */
+  .cookie-banner{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);box-shadow:0 -4px 20px rgba(0,0,0,.12);padding:14px 16px;z-index:3000;display:none}
+  .cookie-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px}
+  .cookie-text{color:#333;font-size:.95rem;flex:1}
+  .cookie-actions{display:flex;gap:10px;flex-wrap:wrap}
+  .cookie-btn{border:0;border-radius:24px;padding:10px 16px;cursor:pointer}
+  .cookie-accept{background:linear-gradient(45deg,#27ae60,#229954);color:#fff}
+  .cookie-reject{background:linear-gradient(45deg,#e74c3c,#c0392b);color:#fff}
+  .cookie-more{background:#eee;color:#333}
+  .cookie-manage{background:#eee;color:#333}
+  /* Preferences modal */
+  .cookie-pref-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:3500;padding:20px}
+  .cookie-pref-modal.open{display:flex}
+  .cookie-pref-dialog{background:#fff;border-radius:12px;max-width:680px;width:100%;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+  .cookie-pref-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #eee}
+  .cookie-pref-body{padding:16px}
+  .cookie-pref-row{display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:10px;padding:12px 14px;margin:10px 0}
+  .cookie-pref-row h4{margin:0 0 6px 0}
+  .cookie-pref-actions{display:flex;justify-content:flex-end;gap:10px;padding:12px 16px;border-top:1px solid #eee}
+  .switch{position:relative;display:inline-block;width:46px;height:24px}
+  .switch input{opacity:0;width:0;height:0}
+  .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;transition:.2s;border-radius:999px}
+  .slider:before{position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background:white;transition:.2s;border-radius:50%}
+  input:checked + .slider{background:#667eea}
+  input:checked + .slider:before{transform:translateX(22px)}
+  input:disabled + .slider{background:#ddd;cursor:not-allowed}
+  /* Reopen FAB */
+  .cookie-fab{position:fixed;left:12px;bottom:12px;z-index:3200;background:rgba(255,255,255,.95);border:1px solid #eee;border-radius:999px;padding:8px 12px;font-size:.9rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.15);display:none}
+  .cookie-fab:hover{box-shadow:0 6px 22px rgba(0,0,0,.2)}
+  /* Language switcher */
+  .lang-switch{margin-left:12px;border:1px solid #e5e5e5;background:#fff;border-radius:20px;padding:6px 10px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:.95rem}
+  .lang-flag{font-size:1rem}
+  @media (max-width:768px){ .lang-switch{padding:6px 8px;font-size:.9rem} }
+  @media (max-width:768px){
+    .cookie-inner{flex-direction:column;align-items:stretch}
+    .cookie-actions{justify-content:flex-end}
+  }
 </style>
 </head>
 <body>
@@ -104,6 +141,10 @@
         <li data-tab="contact"><a href="#contact">Contact</a></li>
         <li data-tab="about"><a href="#about">Despre Noi</a></li>
       </ul>
+      <button id="langSwitch" class="lang-switch" aria-label="Language">
+        <span class="lang-flag" id="langFlag">🇷🇴</span>
+        <span id="langLabel">RO</span>
+      </button>
     </div>
   </nav>
 
@@ -391,7 +432,7 @@
         <h2 class="section-title">Despre WebCraft Pro</h2>
         <div style="background:rgba(255,255,255,.9);border-radius:15px;padding:3rem;margin:2rem 0">
           <h3 style="text-align:center;margin-bottom:2rem">Cine Suntem</h3>
-          <p style="font-size:1.1rem;line-height:1.8;margin-bottom:2rem"><strong>WebCraft Pro</strong> este o echipă tânără de dezvoltatori web pasionați de tehnologie. Fondată în 2022, livrăm soluții moderne și accesibile.</p>
+          <p style="font-size:1.1rem;line-height:1.8;margin-bottom:2rem"><strong>WebCraft Pro</strong> este o echipă tânără de dezvoltatori web pasionați de tehnologie.Livrăm soluții moderne și accesibile.</p>
           <p style="font-size:1.1rem;line-height:1.8;margin-bottom:2rem">Oferim servicii de calitate la prețuri competitive. Fiecare proiect este tratat cu atenție la detalii.</p>
         </div>
         <h3 style="color:#fff;text-align:center;margin:2rem 0">Echipa Noastră</h3>
@@ -407,6 +448,36 @@
           <div class="service-card" style="text-align:center">
             <div style="width:80px;height:80px;background:linear-gradient(45deg,#667eea,#764ba2);border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem">🔧</div>
             <h4>Cristian Dumitrescu</h4><p><strong>DevOps</strong></p><p>Responsabil cu hosting, securitate și mentenanță.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- COOKIES POLICY -->
+      <div id="cookies" class="tab-content">
+        <h2 class="section-title">Politica de Cookies</h2>
+        <div style="background:rgba(255,255,255,.95);border-radius:15px;padding:2rem;max-width:900px;margin:2rem auto;color:#333">
+          <h3>1. Ce sunt cookie-urile?</h3>
+          <p>Cookie-urile sunt fișiere mici text stocate pe dispozitivul tău când vizitezi un site web. Ele ajută la funcționarea corectă a site-ului, la îmbunătățirea experienței și la colectarea unor informații anonime despre utilizare.</p>
+          <h3>2. Tipuri de cookie-uri pe acest site</h3>
+          <ul class="feature-list" style="margin:1rem 0">
+            <li><strong>Necesare</strong>: esențiale pentru funcționarea site-ului (ex. navigare, securitate). Nu pot fi dezactivate.</li>
+            <li><strong>Funcționale</strong>: oferă funcții suplimentare (ex. trimiterea formularului prin servicii terțe).</li>
+            <li><strong>Analitice</strong>: ne ajută să înțelegem cum este utilizat site-ul, în mod agregat și anonim.</li>
+            <li><strong>Marketing</strong>: personalizare conținut și reclame.</li>
+          </ul>
+          <h3>3. Cum gestionăm consimțământul</h3>
+          <p>La prima vizită, îți afișăm un banner de consimțământ. Poți accepta toate categoriile, respinge tot sau alege preferințele. Preferințele sunt salvate local și pot fi modificate oricând din butonul „Preferințe cookie”.</p>
+          <h3>4. Ce cookie-uri folosim</h3>
+          <p>În acest moment folosim cookie-uri necesare. Cookie-uri funcționale pot fi setate când permiți categoria „Funcționale” (de ex. pentru servicii de e-mail/formulare). Analitice/Marketing sunt încă neactivate implicit.</p>
+          <h3>5. Cum poți controla cookie-urile</h3>
+          <ul class="feature-list" style="margin:1rem 0">
+            <li>Din bannerul de consimțământ sau din „Preferințe cookie”.</li>
+            <li>Din setările browserului (poți șterge sau bloca cookie-uri).</li>
+          </ul>
+          <h3>6. Date și confidențialitate</h3>
+          <p>Cookie-urile analitice sunt agregate și anonime. Pentru detalii privind prelucrarea datelor personale, consultă Politica de Confidențialitate.</p>
+          <div style="text-align:center;margin-top:1.5rem">
+            <button class="cookie-btn cookie-manage" onclick="document.getElementById('cookieFab').click()">Deschide preferințele cookie</button>
           </div>
         </div>
       </div>
@@ -426,14 +497,316 @@
     </div>
   </div>
 
+  <!-- COOKIE CONSENT -->
+  <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Notificare cookies">
+    <div class="cookie-inner">
+      <div class="cookie-text">
+        Folosim cookie-uri pentru a-ți oferi o experiență mai bună și pentru analitice. Poți alege categoriile. Citește <a href="#" class="nav-link" data-tab="cookies" style="color:#667eea">Politica de Cookies</a>.
+      </div>
+      <div class="cookie-actions">
+        <button class="cookie-btn cookie-reject" id="cookieRejectAll">Respinge tot</button>
+        <button class="cookie-btn cookie-manage" id="cookieManage">Preferințe</button>
+        <button class="cookie-btn cookie-accept" id="cookieAcceptAll">Acceptă tot</button>
+      </div>
+    </div>
+  </div>
+  <button class="cookie-fab" id="cookieFab" aria-label="Preferințe cookie">Preferințe cookie</button>
+  <div class="cookie-pref-modal" id="cookiePrefModal" aria-hidden="true" role="dialog" aria-labelledby="cookiePrefTitle">
+    <div class="cookie-pref-dialog">
+      <div class="cookie-pref-header">
+        <div id="cookiePrefTitle" style="font-weight:600">Preferințe Cookies</div>
+        <button class="modal-close" id="cookiePrefClose">Închide</button>
+      </div>
+      <div class="cookie-pref-body">
+        <div class="cookie-pref-row">
+          <div>
+            <h4>Necesare</h4>
+            <div style="color:#666;font-size:.95rem">Necesare pentru funcționarea site-ului. Nu pot fi dezactivate.</div>
+          </div>
+          <label class="switch"><input type="checkbox" checked disabled><span class="slider"></span></label>
+        </div>
+        <div class="cookie-pref-row">
+          <div>
+            <h4>Funcționale</h4>
+            <div style="color:#666;font-size:.95rem">Funcții suplimentare (de ex. servicii de trimitere formulare).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="ccFunctional"><span class="slider"></span></label>
+        </div>
+        <div class="cookie-pref-row">
+          <div>
+            <h4>Analitice</h4>
+            <div style="color:#666;font-size:.95rem">Măsurarea anonimă a traficului (ex. Google Analytics).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="ccAnalytics"><span class="slider"></span></label>
+        </div>
+        <div class="cookie-pref-row">
+          <div>
+            <h4>Marketing</h4>
+            <div style="color:#666;font-size:.95rem">Personalizare și reclame.</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="ccMarketing"><span class="slider"></span></label>
+        </div>
+      </div>
+      <div class="cookie-pref-actions">
+        <button class="cookie-btn cookie-more" id="ccRejectAll">Respinge tot</button>
+        <button class="cookie-btn cookie-accept" id="ccAcceptAll">Acceptă tot</button>
+        <button class="cookie-btn cookie-manage" id="ccSave">Salvează</button>
+      </div>
+    </div>
+  </div>
+
 <script>
   // EmailJS init after DOM is ready
   document.addEventListener('DOMContentLoaded', function(){ if (window.emailjs) { emailjs.init("2NkPRAueoBp3VEeIZ"); } });
+  // GDPR Cookie Consent with categories
+  (function(){
+    const CONSENT_KEY = 'cookie_consent_v2';
+    const DEFAULT_PREFS = { necessary:true, functional:false, analytics:false, marketing:false };
+    const banner = document.getElementById('cookieBanner');
+    const fab = document.getElementById('cookieFab');
+    const prefModal = document.getElementById('cookiePrefModal');
+    const prefClose = document.getElementById('cookiePrefClose');
+    const cookieManage = document.getElementById('cookieManage');
+    const rejectAll = document.getElementById('cookieRejectAll');
+    const acceptAll = document.getElementById('cookieAcceptAll');
+    const ccFunctional = document.getElementById('ccFunctional');
+    const ccAnalytics = document.getElementById('ccAnalytics');
+    const ccMarketing = document.getElementById('ccMarketing');
+    const ccRejectAll = document.getElementById('ccRejectAll');
+    const ccAcceptAll = document.getElementById('ccAcceptAll');
+    const ccSave = document.getElementById('ccSave');
+
+    function getPrefs(){
+      try{ return JSON.parse(localStorage.getItem(CONSENT_KEY)) || null; }catch(e){ return null; }
+    }
+    function setPrefs(p){ localStorage.setItem(CONSENT_KEY, JSON.stringify({ ...DEFAULT_PREFS, ...p })); }
+    function openPrefs(){ prefModal.classList.add('open'); prefModal.setAttribute('aria-hidden','false'); }
+    function closePrefs(){ prefModal.classList.remove('open'); prefModal.setAttribute('aria-hidden','true'); }
+    function showBanner(){ if(banner) banner.style.display='block'; }
+    function hideBanner(){ if(banner) banner.style.display='none'; if(fab) fab.style.display='block'; }
+
+    function applyScripts(prefs){
+      // Load deferred scripts by category (type="text/plain" with data-src & data-cookiecategory)
+      document.querySelectorAll('script[type="text/plain"][data-src][data-cookiecategory]').forEach(s=>{
+        const cat = s.getAttribute('data-cookiecategory');
+        if(cat==='necessary' || prefs[cat]){
+          const newS = document.createElement('script');
+          newS.src = s.getAttribute('data-src');
+          if(s.getAttribute('crossorigin')) newS.setAttribute('crossorigin', s.getAttribute('crossorigin'));
+          document.head.appendChild(newS);
+          s.type = 'text/javascript';
+        }
+      });
+      // Example: if analytics consented, you could initialize GA here
+      // if(prefs.analytics){ /* init analytics */ }
+    }
+
+    function syncUI(prefs){
+      if(ccFunctional) ccFunctional.checked = !!prefs.functional;
+      if(ccAnalytics) ccAnalytics.checked = !!prefs.analytics;
+      if(ccMarketing) ccMarketing.checked = !!prefs.marketing;
+    }
+
+    const saved = getPrefs();
+    if(saved){
+      hideBanner();
+      applyScripts(saved);
+    }else{
+      showBanner();
+    }
+
+    // Banner buttons
+    if(cookieManage){ cookieManage.addEventListener('click', ()=>{ syncUI(saved||DEFAULT_PREFS); openPrefs(); }); }
+    if(rejectAll){ rejectAll.addEventListener('click', ()=>{ const p={ functional:false, analytics:false, marketing:false }; setPrefs(p); hideBanner(); }); }
+    if(acceptAll){ acceptAll.addEventListener('click', ()=>{ const p={ functional:true, analytics:true, marketing:true }; setPrefs(p); hideBanner(); applyScripts({ ...DEFAULT_PREFS, ...p }); }); }
+
+    // Pref modal
+    if(prefClose){ prefClose.addEventListener('click', closePrefs); }
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closePrefs(); });
+    if(ccRejectAll){ ccRejectAll.addEventListener('click', ()=>{ ccFunctional.checked=false; ccAnalytics.checked=false; ccMarketing.checked=false; }); }
+    if(ccAcceptAll){ ccAcceptAll.addEventListener('click', ()=>{ ccFunctional.checked=true; ccAnalytics.checked=true; ccMarketing.checked=true; }); }
+    if(ccSave){ ccSave.addEventListener('click', ()=>{
+      const p = { functional: !!ccFunctional.checked, analytics: !!ccAnalytics.checked, marketing: !!ccMarketing.checked };
+      setPrefs(p);
+      hideBanner();
+      applyScripts({ ...DEFAULT_PREFS, ...p });
+      closePrefs();
+    }); }
+
+    // Reopen control
+    if(fab){ fab.addEventListener('click', ()=>{ syncUI(getPrefs()||DEFAULT_PREFS); openPrefs(); }); }
+  })();
 
   // Tabs & mobile menu
   const navMenu = document.getElementById('navMenu');
   const mobileToggle = document.getElementById('mobileToggle');
   const logoLink = document.getElementById('logoLink');
+  // Language
+  const langSwitch = document.getElementById('langSwitch');
+  const langFlag = document.getElementById('langFlag');
+  const langLabel = document.getElementById('langLabel');
+
+  const LANG_COOKIE = 'site_lang';
+  const I18N = {
+    ro: {
+      nav_home: 'Acasă', nav_services: 'Servicii', nav_pricing: 'Prețuri', nav_hosting: 'Hosting', nav_portfolio: 'Portofoliu', nav_contact: 'Contact', nav_about: 'Despre Noi',
+      hero_title: 'WebCraft Pro',
+      hero_sub: 'Transformăm ideile în experiențe web excepționale. Servicii complete de web development cu tehnologii moderne și prețuri accesibile.',
+      cta_request: 'Solicită Ofertă Gratuită',
+      why_choose: 'De ce să ne alegi?',
+      services_title: 'Serviciile Noastre',
+      pricing_title: 'Pachete și Prețuri',
+      pricing_note: 'Prețuri competitive pentru piața din România. Toate prețurile includ TVA și sunt fără costuri ascunse.',
+      html_simple: 'HTML Simplu', html_advanced: 'HTML Avansat', shop_title: 'Magazin Online',
+      buy_now: 'Comandă Acum',
+      hosting_title: 'Hosting', hosting_plan: 'Hosting Start', hosting_activate: 'Activează',
+      portfolio_title: 'Portofoliul Nostru',
+      contact_title: 'Contactează-ne', contact_form_title: 'Solicită Ofertă Gratuită', contact_submit: '📧 Trimite Solicitarea',
+      about_title: 'Despre WebCraft Pro', team_title: 'Echipa Noastră',
+      cookies_policy: 'Politica de Cookies',
+      cookie_banner_text: 'Folosim cookie-uri pentru a-ți oferi o experiență mai bună și pentru analitice. Poți alege categoriile.',
+      cookie_reject: 'Respinge tot',
+      cookie_prefs: 'Preferințe',
+      cookie_accept_all: 'Acceptă tot',
+      cookie_pref_title: 'Preferințe Cookies',
+      cookie_row_necessary_title: 'Necesare',
+      cookie_row_necessary_desc: 'Necesare pentru funcționarea site-ului. Nu pot fi dezactivate.',
+      cookie_row_functional_title: 'Funcționale',
+      cookie_row_functional_desc: 'Funcții suplimentare (de ex. servicii de trimitere formulare).',
+      cookie_row_analytics_title: 'Analitice',
+      cookie_row_analytics_desc: 'Măsurarea anonimă a traficului (ex. Google Analytics).',
+      cookie_row_marketing_title: 'Marketing',
+      cookie_row_marketing_desc: 'Personalizare și reclame.',
+      cookie_modal_reject_all: 'Respinge tot',
+      cookie_modal_accept_all: 'Acceptă tot',
+      cookie_modal_save: 'Salvează',
+      cookie_fab: 'Preferințe cookie',
+    },
+    en: {
+      nav_home: 'Home', nav_services: 'Services', nav_pricing: 'Pricing', nav_hosting: 'Hosting', nav_portfolio: 'Portfolio', nav_contact: 'Contact', nav_about: 'About Us',
+      hero_title: 'WebCraft Pro',
+      hero_sub: 'We turn ideas into outstanding web experiences. Full web development services with modern technologies and fair prices.',
+      cta_request: 'Get a Free Quote',
+      why_choose: 'Why choose us?',
+      services_title: 'Our Services',
+      pricing_title: 'Packages & Pricing',
+      pricing_note: 'Competitive prices for the Romanian market. All prices include VAT and have no hidden fees.',
+      html_simple: 'Basic HTML', html_advanced: 'Advanced HTML', shop_title: 'Online Store',
+      buy_now: 'Order Now',
+      hosting_title: 'Hosting', hosting_plan: 'Hosting Start', hosting_activate: 'Activate',
+      portfolio_title: 'Our Portfolio',
+      contact_title: 'Contact Us', contact_form_title: 'Request a Free Quote', contact_submit: '📧 Send Request',
+      about_title: 'About WebCraft Pro', team_title: 'Our Team',
+      cookies_policy: 'Cookies Policy',
+      cookie_banner_text: 'We use cookies to improve your experience and for analytics. You can choose categories.',
+      cookie_reject: 'Reject all',
+      cookie_prefs: 'Preferences',
+      cookie_accept_all: 'Accept all',
+      cookie_pref_title: 'Cookie Preferences',
+      cookie_row_necessary_title: 'Necessary',
+      cookie_row_necessary_desc: 'Required for the site to function. Cannot be disabled.',
+      cookie_row_functional_title: 'Functional',
+      cookie_row_functional_desc: 'Additional features (e.g., form/email services).',
+      cookie_row_analytics_title: 'Analytics',
+      cookie_row_analytics_desc: 'Anonymous traffic measurement (e.g., Google Analytics).',
+      cookie_row_marketing_title: 'Marketing',
+      cookie_row_marketing_desc: 'Personalization and ads.',
+      cookie_modal_reject_all: 'Reject all',
+      cookie_modal_accept_all: 'Accept all',
+      cookie_modal_save: 'Save',
+      cookie_fab: 'Cookie preferences',
+    }
+  };
+
+  function setCookie(name, value, days){
+    const d = new Date(); d.setTime(d.getTime() + (days*24*60*60*1000));
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
+  }
+  function getCookie(name){
+    return document.cookie.split('; ').find(r => r.startsWith(name + '='))?.split('=')[1] || '';
+  }
+  function applyLang(lang){
+    const dict = I18N[lang] || I18N.ro;
+    document.documentElement.setAttribute('lang', lang);
+    // Nav labels
+    const navMap = [
+      ['home','nav_home'], ['services','nav_services'], ['pricing','nav_pricing'], ['hosting','nav_hosting'], ['portfolio','nav_portfolio'], ['contact','nav_contact'], ['about','nav_about']
+    ];
+    navMap.forEach(([tab,key])=>{
+      const li = document.querySelector('.nav-menu li[data-tab="'+tab+'"] a');
+      if(li) li.textContent = dict[key];
+    });
+    // Hero
+    const heroTitle = document.querySelector('#home .hero h1'); if(heroTitle) heroTitle.textContent = dict.hero_title;
+    const heroSub = document.querySelector('#home .hero p'); if(heroSub) heroSub.textContent = dict.hero_sub;
+    const heroCta = document.querySelector('#home .hero .cta-button'); if(heroCta) heroCta.textContent = dict.cta_request;
+    // Section titles
+    const why = document.querySelector('#home .section-title'); if(why) why.textContent = dict.why_choose;
+    const servicesTitle = document.querySelector('#services .section-title'); if(servicesTitle) servicesTitle.textContent = dict.services_title;
+    const pricingTitle = document.querySelector('#pricing .section-title'); if(pricingTitle) pricingTitle.textContent = dict.pricing_title;
+    const pricingNote = document.querySelector('#pricing > p'); if(pricingNote) pricingNote.textContent = dict.pricing_note;
+    const portfolioTitle = document.querySelector('#portfolio .section-title'); if(portfolioTitle) portfolioTitle.textContent = dict.portfolio_title;
+    const contactTitle = document.querySelector('#contact .section-title'); if(contactTitle) contactTitle.textContent = dict.contact_title;
+    const contactFormTitle = document.querySelector('#contact .contact-form h3'); if(contactFormTitle) contactFormTitle.textContent = dict.contact_form_title;
+    const contactSubmit = document.querySelector('#contact button[type="submit"]'); if(contactSubmit) contactSubmit.textContent = dict.contact_submit;
+    const aboutTitle = document.querySelector('#about .section-title'); if(aboutTitle) aboutTitle.textContent = dict.about_title;
+    const teamTitle = document.querySelector('#about h3[style*="Echipa"]'); if(teamTitle) teamTitle.textContent = dict.team_title;
+    const cookieTitle = document.querySelector('#cookies .section-title'); if(cookieTitle) cookieTitle.textContent = dict.cookies_policy;
+    // Cookie banner & modal texts
+    const cbText = document.querySelector('#cookieBanner .cookie-text'); if(cbText){
+      const policyLink = cbText.querySelector('a.nav-link');
+      cbText.textContent = dict.cookie_banner_text + ' ';
+      if(policyLink){ policyLink.textContent = dict.cookies_policy; policyLink.style.color = '#667eea'; cbText.appendChild(policyLink); cbText.appendChild(document.createTextNode('.')); }
+    }
+    const btnReject = document.getElementById('cookieRejectAll'); if(btnReject) btnReject.textContent = dict.cookie_reject;
+    const btnPrefs = document.getElementById('cookieManage'); if(btnPrefs) btnPrefs.textContent = dict.cookie_prefs;
+    const btnAccept = document.getElementById('cookieAcceptAll'); if(btnAccept) btnAccept.textContent = dict.cookie_accept_all;
+    const prefTitle = document.getElementById('cookiePrefTitle'); if(prefTitle) prefTitle.textContent = dict.cookie_pref_title;
+    const rowNecT = document.querySelector('#cookiePrefModal .cookie-pref-row:nth-child(1) h4'); if(rowNecT) rowNecT.textContent = dict.cookie_row_necessary_title;
+    const rowNecD = document.querySelector('#cookiePrefModal .cookie-pref-row:nth-child(1) div[style*="color:#666"]'); if(rowNecD) rowNecD.textContent = dict.cookie_row_necessary_desc;
+    const rowFunT = document.querySelector('#cookiePrefModal .cookie-pref-row:nth-child(2) h4'); if(rowFunT) rowFunT.textContent = dict.cookie_row_functional_title;
+    const rowFunD = document.querySelector('#cookiePrefModal .cookie-pref-row:nth-child(2) div[style*="color:#666"]'); if(rowFunD) rowFunD.textContent = dict.cookie_row_functional_desc;
+    const rowAnaT = document.querySelector('#cookiePrefModal .cookie-pref-row:nth-child(3) h4'); if(rowAnaT) rowAnaT.textContent = dict.cookie_row_analytics_title;
+    const rowAnaD = document.querySelector('#cookiePrefModal .cookie-pref-row:nth-child(3) div[style*="color:#666"]'); if(rowAnaD) rowAnaD.textContent = dict.cookie_row_analytics_desc;
+    const rowMarT = document.querySelector('#cookiePrefModal .cookie-pref-row:nth-child(4) h4'); if(rowMarT) rowMarT.textContent = dict.cookie_row_marketing_title;
+    const rowMarD = document.querySelector('#cookiePrefModal .cookie-pref-row:nth-child(4) div[style*="color:#666"]'); if(rowMarD) rowMarD.textContent = dict.cookie_row_marketing_desc;
+    const ccRAll = document.getElementById('ccRejectAll'); if(ccRAll) ccRAll.textContent = dict.cookie_modal_reject_all;
+    const ccAAll = document.getElementById('ccAcceptAll'); if(ccAAll) ccAAll.textContent = dict.cookie_modal_accept_all;
+    const ccSave = document.getElementById('ccSave'); if(ccSave) ccSave.textContent = dict.cookie_modal_save;
+    const fabBtn = document.getElementById('cookieFab'); if(fabBtn) fabBtn.textContent = dict.cookie_fab;
+    // Pricing cards titles and buttons
+    const htmlS = document.querySelector('#pricing .pricing-card:nth-child(1) h3'); if(htmlS) htmlS.textContent = dict.html_simple;
+    const htmlA = document.querySelector('#pricing .pricing-card.featured h3'); if(htmlA) htmlA.textContent = dict.html_advanced;
+    const shop = document.querySelector('#pricing .pricing-card:nth-child(3) h3'); if(shop) shop.textContent = dict.shop_title;
+    document.querySelectorAll('#pricing .pricing-card .pricing-button').forEach(b=> b.textContent = dict.buy_now);
+    // Hosting
+    const hostingSection = document.querySelector('#hosting .section-title'); if(hostingSection) hostingSection.textContent = dict.hosting_title;
+    const hostingPlan = document.querySelector('#hosting .pricing-card h3'); if(hostingPlan) hostingPlan.textContent = dict.hosting_plan;
+    const hostingBtn = document.querySelector('#hosting .pricing-card .pricing-button'); if(hostingBtn) hostingBtn.textContent = dict.hosting_activate;
+
+    // Switcher UI
+    if(langFlag && langLabel){
+      if(lang==='en'){ langFlag.textContent='🇬🇧'; langLabel.textContent='EN'; }
+      else { langFlag.textContent='🇷🇴'; langLabel.textContent='RO'; }
+    }
+  }
+
+  function initLang(){
+    const cookieVal = decodeURIComponent(getCookie(LANG_COOKIE) || '');
+    const auto = (navigator.language||'').toLowerCase().startsWith('en') ? 'en' : 'ro';
+    const lang = (cookieVal === 'en' || cookieVal === 'ro') ? cookieVal : auto || 'ro';
+    applyLang(lang);
+    setCookie(LANG_COOKIE, lang, 365);
+  }
+
+  if(langSwitch){
+    langSwitch.addEventListener('click', ()=>{
+      const current = document.documentElement.getAttribute('lang') === 'en' ? 'en' : 'ro';
+      const next = current === 'en' ? 'ro' : 'en';
+      applyLang(next);
+      setCookie(LANG_COOKIE, next, 365);
+    });
+  }
 
   function closeMobileMenu(){
     navMenu.classList.remove('mobile-active');
@@ -491,6 +864,8 @@
     const initial = (location.hash||'#home').replace('#','');
     const navItem = document.querySelector('.nav-menu li[data-tab="'+initial+'"]');
     if(navItem){ showTab(initial, navItem); }
+    // Initialize language
+    initLang();
   });
 
   // Pricing buttons handler - navigate to contact with service pre-selected
