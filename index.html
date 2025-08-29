@@ -67,9 +67,11 @@
   .mobile-menu-toggle.active span:nth-child(3){transform:rotate(45deg) translate(-5px,-6px)}
   @media (max-width:768px){
     .mobile-menu-toggle{display:flex}
-    .nav-menu{position:fixed;top:70px;left:0;right:0;background:rgba(255,255,255,.98);backdrop-filter:blur(10px);flex-direction:column;padding:1rem 0;box-shadow:0 2px 20px rgba(0,0,0,.1);display:none;z-index:999;max-height:calc(100vh - 70px);overflow-y:auto}
+    .nav-menu{position:fixed;top:70px;left:0;right:0;background:rgba(255,255,255,.98);backdrop-filter:blur(10px);flex-direction:column;padding:.5rem 0;box-shadow:0 2px 20px rgba(0,0,0,.1);display:none;z-index:999;max-height:calc(100vh - 70px);overflow-y:auto}
     .nav-menu.mobile-active{display:flex}
-    .nav-menu li{margin:.5rem 1rem;text-align:center;padding:1rem;border-radius:10px}
+    .nav-menu li{margin:.25rem .75rem;text-align:center;padding:.6rem .75rem;border-radius:10px}
+    .nav-menu li a{font-size:.95rem}
+    .nav-container{padding:0 12px}
     .hero h1{font-size:2.5rem}
     .hero p{font-size:1.1rem}
     .services-grid,.pricing-grid,.portfolio-grid{grid-template-columns:1fr}
